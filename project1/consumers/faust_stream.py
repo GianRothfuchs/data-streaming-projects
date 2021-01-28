@@ -1,3 +1,4 @@
+
 """Defines trends calculations for stations"""
 import logging
 
@@ -35,7 +36,7 @@ app = faust.App("stations-stream", broker="kafka://localhost:9092", store="memor
 # TODO: Define the input Kafka Topic. Hint: What topic did Kafka Connect output to?
 topic = app.topic("stations", value_type=Station)
 # TODO: Define the output Kafka Topic
-out_topic = app.topic("TransformedStationTable", partitions=1)
+out_topic = app.topic("org.chicago.cta.stations.table.v1", partitions=1)
 # TODO: Define a Faust Table
 table = app.Table(
    "TransformedStation",
@@ -46,7 +47,7 @@ table = app.Table(
 
 @app.agent(topic)
 async def transformStation(stations):
-        async for station in sations:
+        async for station in stations:
 
             tmpcol = ''
             for col in ['red','blue','green']:

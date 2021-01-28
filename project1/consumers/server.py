@@ -47,6 +47,7 @@ def run_server():
         )
         exit(1)
     if topic_check.topic_exists("org.chicago.cta.stations.table.v1") is False:
+        # set at faustStream table def
         logger.fatal(
             "Ensure that Faust Streaming is running successfully before running the web server!"
         )
@@ -63,7 +64,7 @@ def run_server():
     # Build kafka consumers
     consumers = [
         KafkaConsumer(
-            "org.chicago.cta.weather.v1",
+            "com.udacity.weather",
             weather_model.process_message,
             offset_earliest=True,
         ),
@@ -74,7 +75,7 @@ def run_server():
             is_avro=False,
         ),
         KafkaConsumer(
-            "^org.chicago.cta.station.arrivals.",
+            "^.+arrival$",
             lines.process_message,
             offset_earliest=True,
         ),
