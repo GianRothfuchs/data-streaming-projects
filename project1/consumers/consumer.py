@@ -41,6 +41,9 @@ class KafkaConsumer:
             "group.id": "0"
         }
 
+        if self.offset_earliest:
+            brocker_properties["default.topic.config"] = {"auto.offset.reset": "earliest"}
+
         # TODO: Create the Consumer, using the appropriate type.
         if is_avro is True:
             self.broker_properties["schema.registry.url"] = "http://localhost:8081"
@@ -67,7 +70,7 @@ class KafkaConsumer:
                 partition.offset = confluent_kafka.OFFSET_BEGINNING
 
 
-        logger.info("partitions assigned for %s", self.topic_name_pattern)
+        logger.info(f"partitions assigned for {self.topic_name_pattern}")
         consumer.assign(partitions)
 
     async def consume(self):
