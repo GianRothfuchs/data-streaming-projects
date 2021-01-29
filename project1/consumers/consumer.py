@@ -38,9 +38,10 @@ class KafkaConsumer:
         #
         self.broker_properties = {
             "bootstrap.servers": "PLAINTEXT://localhost:9092",
-            "group.id": "0"
+            "group.id": "0",
+            "default.topic.config": {"auto.offset.reset": "latest"}
         }
-
+        # reviewer suggested to default auto.offset.reset to latest, and change it based on offset_earliest
         if self.offset_earliest:
             brocker_properties["default.topic.config"] = {"auto.offset.reset": "earliest"}
 
